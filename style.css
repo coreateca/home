@@ -63,6 +63,7 @@ body{
 .table h2{
   text-transform: uppercase;
 }
+
 .table ul{
   margin: 0;
   padding: 0;
@@ -71,6 +72,7 @@ body{
   padding: 10px 0;
   list-style: none;
 }
+
 .info{
   font-size: 40px;
   margin-bottom: 20px;
@@ -79,6 +81,7 @@ body{
   display: block;
   font-size: 14px;
 }
+
 .table a{
   text-decoration: none;
   color: #2c3e50;
@@ -91,8 +94,26 @@ body{
   font-size: 14px;
   transition: 0.5s linear;
 }
+
+
+.alink li.link a {
+  text-decoration: none;
+  color: red;
+  border: 2px solid #fff;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  transition: 0.5s linear;
+}
+
+
+.alink li.link a:hover{
+  background: #333;
+  color: #fff;
+}
+
 .table a:hover{
-  background: #2c3e50;
+  background: #333;
   color: #fff;
 }
 
