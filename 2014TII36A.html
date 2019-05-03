@@ -1,0 +1,3085 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>제36회 한국어능력시험 TOPIK II (B) 듣기</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=euc-kr" />
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-132871885-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-132871885-1');
+</script>
+</head>
+
+
+<body>
+
+
+<script language="javascript">
+	var total_test_num = 50; //총시험문제수
+	var start_test_num=1;
+	var hour = 1;		//시험시간 (시)
+	var minute = 0;	//시험시간 (분)
+	var second = 0;		//시험시간 (초)
+	ca="1,2,1,3,1,3,4,4,1,2,1,3,1,3,2,4,2,3,2,2,4,3,1,4,2,4,2,4,2,4,3,1,1,3,4,4,2,1,1,3,4,2,3,1,2,3,4,3,1,4,"; //정답
+	gr="2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2"; //점수
+</script>
+
+
+
+<style type=text/css>
+	body		{ font-family:tahoma; color:#555555; background-color:#fafafa; }
+	.submit		{ height:50px; font-weight:bold; background-color:#336699; color:#ffffff; border:0px; font-size:20px; }
+	.submit_on	{ }
+	.subject	{ font-weight:bold; font-size:21px; }
+	.comment	{ font-size:16px; }
+</style>
+
+<script language=/js/jquery.min.js></script>
+<meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+
+
+<style type="text/css">
+	a:visited			{ color:#605C5C;  text-decoration:none;}
+	a:link				{ color:#605C5C; text-decoration:none;}
+	a:hover				{ color:#ff0000; text-decoration:none;}
+
+
+	.question			{ font-size:15px; font-weight:bold; width:100%;}
+	.question_outline	{ font-size:15px; font-weight:bold; border:1px solid #aaaaaa; padding:10px;}
+
+	.example_answer_ok	{ text-decoration:underline; font-weight:bold; }
+	.answer				{ font-size:15px; text-decoration:none; }
+	.answer_ok			{ font-size:15px; color:#00dd00;}
+	.answer_no			{ text-decoration:line-through;  color:#ff0000;}
+
+	.answer:visited		{ color:#605C5C;  text-decoration:none;}
+	.answer:link		{ color:#605C5C; text-decoration:none;}
+	.answer:hover		{ color:#ff0000; text-decoration:none; cursor:pointer;}
+
+	.select_answer		{ font-size:17px; font-weight:bold; color:#ff0000; text-decoration:underline}
+	.answer_td_1		{ width:100%; }
+	.answer_td_2		{ width:50%; }
+	.answer_td_4		{ width:25%; }
+
+	.no_test			{ background-color:#ffffff; border:1 solid #ee0000; border-color:#ee0000;}
+	.ok_test			{ }
+</style>
+
+<link href="/js/jquery/jquery-ui.css" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<div id="dialog-message" title="Download complete" style="display:none;"></div>
+
+
+
+
+
+<script language="javascript">
+	var answer=new Array((total_test_num-1)+start_test_num);
+	var correct_answer=new Array((total_test_num-1)+start_test_num);
+	var grade=new Array((total_test_num-1)+start_test_num);
+	var ca,gr;
+	var test_ing=true;
+	var test_end_check=false;
+
+
+
+	function test_result(){
+		var bError=0;
+		var no_test_num=0;
+		var no_resolve_num=0;
+		test_ing=false;
+
+		for(i=start_test_num; i<=(total_test_num-1)+start_test_num; i++){
+			if (answer[i]==0) {
+				bError=i;
+				no_test_num=no_test_num + i + "번 "
+				$("#test_"+i).addClass("no_test");
+				no_resolve_num++;
+			}
+		}
+
+		if (bError>0 && test_ing==true)
+		{
+
+			$( "#dialog-message" ).html("풀지않은 문제가 있습니다.<br/>" + no_test_num + "문제를 모두 풀어주세요.");
+			$( "#dialog-message" ).dialog({
+			  modal: true,
+			  title: "문제를 다 풀어주세요.",
+			  buttons: {
+				Ok: function() {
+				  $( this ).dialog( "close" );
+				  $("#q1").scroll();
+				}
+			  }
+			});
+
+		}else{
+			test_ing=false;
+
+			var correct_answer_num=0, total_grade=0;
+			for(i=start_test_num; i<=(total_test_num-1)+start_test_num; i++){
+				if(answer[i]==correct_answer[i]){
+					correct_answer_num++;
+					total_grade=total_grade+parseInt(grade[i]);
+
+					$("#a"+ i + "_" +correct_answer[i]).append("<span style='text-decoration:none;'>(정답)</span>");
+				}else{
+					$("#a"+ i + "_" +answer[i]).removeClass();
+					$("#a"+ i + "_" +answer[i]).addClass("answer_no");
+					$("#a"+ i + "_" +answer[i]).append("<span style='text-decoration:none;'></span>");
+
+					$("#a"+ i + "_" +correct_answer[i]).removeClass();
+					$("#a"+ i + "_" +correct_answer[i]).addClass("answer_ok");
+					$("#a"+ i + "_" +correct_answer[i]).append("<span style='text-decoration:none;'></span>");
+				}
+			}
+
+
+			$("#result_message").show();
+			$("#total_test_num").html(total_test_num);
+			$("#total_solve_num").html(total_test_num-no_resolve_num);
+			$("#correct_answer_num").html(correct_answer_num);
+			$("#no_answer_num").html(total_test_num-correct_answer_num);
+			$("#total_grade").html(total_grade);
+
+		}
+	}
+
+
+
+	function select_answer(obj){
+		var question_group, answer_num;
+		var test;
+
+		question_group=obj.id.split("_")[0];
+		answer_num=obj.id.split("_")[1];
+		test=question_group.split("a")[1];
+		if(test_ing==true){
+			answer[test]=answer_num;
+			for(i=1; i<=4; i++){
+				document.getElementById(question_group + "_" + i).className="answer";
+			}
+			document.getElementById(question_group + "_" + answer_num).className="select_answer";
+			$("#test_"+test).removeClass();
+			$("#test_"+test).addClass("ok_test");
+		}else{
+		}
+
+	}
+
+
+
+	$(function(){
+
+		$( "#result_button" ).button();
+		$( "#result_button" ).click(test_result);
+		ca=ca.split(",");gr=gr.split(",");
+
+		for (i=1; i<=total_test_num+start_test_num; i++){answer[i]=0;}
+		for (i=1; i<=total_test_num+start_test_num; i++){correct_answer[i]=ca[i-1];}
+		for (i=0; i<=total_test_num+start_test_num; i++){grade[i]=gr[i-1];}
+
+		$(".countTimeHour").html(hour);
+		$(".countTimeMinute").html(minute);
+		$(".countTimeSecond").html(second);
+
+		var timer = setInterval(function (){
+			$(".countTimeHour").html(hour);
+			$(".countTimeMinute").html(minute);
+			$(".countTimeSecond").html(second);
+
+			if( (second == 0 && minute == 0 && hour == 0) || test_ing==false){
+
+						clearInterval(timer);
+
+						$( "#dialog-message" ).html("시험시간이 종료하였습니다.");
+						$( "#dialog-message" ).dialog({
+						  modal: true,
+						  title: "시험시간이 종료하였습니다.",
+						  buttons: {
+							Ok: function() {
+							  $( this ).dialog( "close" );
+							  $("#go_link").click();
+							  test_end_check=true;
+	//				alert('타이머 종료.');
+					clearInterval(timer);
+							}
+						  }
+						});
+					$("#dialog-message").dialog("close").delay(1000);
+
+					if(test==false && test_end_check==false){
+						test_result();
+					}
+			}else{
+
+					second--;
+					if(second < 0){
+						minute--;
+						second = 59;
+					}
+					if(minute < 0){
+						if(hour > 0){
+							hour--;
+							minute = 59;
+						}
+					}
+
+				}
+			 }, 1000);
+	});
+
+</script>
+
+
+
+<table cellpadding=3 cellspacing=1 width=980px align="center">
+<tr>
+	<td>
+
+
+<a href="#" name="" id="go_link"></a>
+<style type=text/css>
+#STATICMENU { margin: 0pt; padding: 0pt; width:100px; position: absolute; margin-left:200px; left:50%; top: 0px;  margin-top:0px; z-index:1000;}
+</style>
+
+
+<div id=STATICMENU>
+	<div id="bottomrollbanner">
+
+		<div id="time_message">
+ 		<table cellpadding="3" cellspacing="1" bgcolor="#ffffff" style="border:2px solid #aaaaaa;" width="280px">
+ 		<tr>
+ 			<td style="font-size:20px;text-align:center;">
+ 				Tiempo :
+ 				<span class="countTimeHour">60</span> h
+ 				<span class="countTimeMinute">60</span> m
+ 				<span class="countTimeSecond">60</span> s
+ 			</td>
+ 		</tr>
+ 		<tr>
+ 			<td align="center">
+ 				<span id="banner_go_top"><a href="#" title=Top>arriba ▲</a>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+ 				<a href="#bottom" title=Top>abajo ▼</a>
+			</td>
+		</tr>
+		</table>
+	 </div>
+	</div>
+	<br/><br/>
+
+<br/><br/>
+</div>
+
+<script language=javascript>
+var stmnLEFT = 10; // 오른쪽 여백
+var stmnGAP1 = 0; // 위쪽 여백
+var stmnGAP2 = 10; // 스크롤시 브라우저 위쪽과 떨어지는 거리
+var stmnBASE = 95; // 스크롤 시작위치
+var stmnActivateSpeed = 10; //스크롤을 인식하는 딜레이 (숫자가 클수록 느리게 인식)
+var stmnScrollSpeed = 10; //스크롤 속도 (클수록 느림)
+var stmnTimer;
+
+function RefreshStaticMenu() {
+	var stmnStartPoint, stmnEndPoint;
+	stmnStartPoint = parseInt(document.getElementById('STATICMENU').style.top, 10);
+	stmnEndPoint = Math.max(document.documentElement.scrollTop, document.body.scrollTop) + stmnGAP2;
+	if (stmnEndPoint < stmnGAP1) stmnEndPoint = stmnGAP1;
+	if (stmnStartPoint != stmnEndPoint) {
+	stmnScrollAmount = Math.ceil( Math.abs( stmnEndPoint - stmnStartPoint ) / 15 );
+	document.getElementById('STATICMENU').style.top = parseInt(document.getElementById('STATICMENU').style.top, 10) + ( ( stmnEndPoint<stmnStartPoint ) ? -stmnScrollAmount : stmnScrollAmount ) + 'px';
+	stmnRefreshTimer = stmnScrollSpeed;
+	}
+	stmnTimer = setTimeout("RefreshStaticMenu();", stmnActivateSpeed);
+}
+
+function InitializeStaticMenu() {
+	document.getElementById('STATICMENU').style.right = stmnLEFT + 'px';  //처음에 오른쪽에 위치. left로 바꿔도.
+	document.getElementById('STATICMENU').style.top = document.body.scrollTop + stmnBASE + 'px';
+	RefreshStaticMenu();
+}
+
+
+//window.onload=function inti_quick_1() {
+	InitializeStaticMenu();
+//}
+</script>
+
+
+	<center>
+	<b style="font-size:30px;">TOPIK II 듣기 (1번 ～ 50번)</b>
+	</center><br/><br/>
+
+
+<div id="mp3_player_ie_9" style="display:none"></div>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.9.2/jplayer/jquery.jplayer.min.js"></script>
+<script type="text/javascript">
+var ie_9_under_check=false
+if (navigator.userAgent.indexOf("MSIE 6") > 0) {
+	ie_9_under_check=true;
+} else if(navigator.userAgent.indexOf("MSIE 7") > 0) {
+	ie_9_under_check=true;
+} else if(navigator.userAgent.indexOf("MSIE 8") > 0) {
+	ie_9_under_check=true;
+} else if(navigator.userAgent.indexOf("MSIE 9") > 0) {
+	ie_9_under_check=true;
+}
+
+if (ie_9_under_check==false)
+{
+
+$("#ie9palyer").html("test");
+
+	$(document).ready(function() {
+
+		$("#jquery_jplayer_1").jPlayer({
+			ready: function(event) {
+				$(this).jPlayer("setMedia", {
+					mp3: "mp3/36_2.mp3",
+					oga: "mp3/36_2.mp3"
+				});
+				$(this).jPlayer("play")
+			},
+			supplied: "mp3, oga"
+		});
+
+	});
+
+
+//	document.getElementById("bottomrollbanner").className="bottomrollbanner";
+}else{
+	$("#mp3_player_ie_9").html("<embed src='mp3/36_2.mp3' showcontrols='0' showstatusbar='1' width='300' height='25' id='ie9player'></embed><br/><br/>");
+
+//	document.getElementById("bottomrollbanner").className="bottomrollbanner_no";
+//	document.getElementById("banner_go_top").style.display="none";
+	document.getElementById("mp3_player_ie_9").style.display="block";
+}
+</script>
+
+<div id="jquery_jplayer_1" class="jp-jplayer"></div>
+<div id="jp_container_1" class="jp-audio">
+	<div class="jp-type-single">
+		<div class="jp-gui jp-interface">
+			<ul class="jp-controls">
+				AUDICIÓN :
+				<a href="javascript:;" class="jp-play" tabindex="1">▶ REPRODUCIR</a>
+				<a href="javascript:;" class="jp-pause" tabindex="1">■ PAUSA</a>
+				<!--
+				<li><a href="javascript:;" class="jp-stop" tabindex="1">중지</a></li>
+				<!--
+				<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
+				<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
+				<li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
+				-->
+			</ul>
+
+			<!-- you can comment out any of the following <div>s too -->
+
+			<!--
+			<div class="jp-progress">
+				<div class="jp-seek-bar">
+					<div class="jp-play-bar"></div>
+				</div>
+			</div>
+			<div class="jp-volume-bar">
+				<div class="jp-volume-bar-value"></div>
+			</div>
+			<div class="jp-current-time"></div>
+			<div class="jp-duration"></div>
+			-->
+		</div>
+		<div class="jp-no-solution">
+			<span>Update Required</span>
+			To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<br/><br/>
+	<b>※ [1～3]다음을 듣고 알맞은 그림을 고르십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_1" name="test_1">
+
+
+		<div id="q1" class="question">1. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a1_1" onclick="select_answer(this)">
+						① <img src='images/36_2_1_1_1.png' width='400' align='absmiddle'>
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a1_2" onclick="select_answer(this)">
+						② <img src='images/36_2_1_1_2.png' width='400' align='absmiddle'>
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a1_3" onclick="select_answer(this)">
+						③ <img src='images/36_2_1_1_3.png' width='400' align='absmiddle'>
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a1_4" onclick="select_answer(this)">
+						④ <img src='images/36_2_1_1_4.png' width='400' align='absmiddle'>
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_2" name="test_2">
+
+
+		<div id="q2" class="question">2. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a2_1" onclick="select_answer(this)">
+						① <img src='images/36_2_1_2_1.png' width='400' align='absmiddle'>
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a2_2" onclick="select_answer(this)">
+						② <img src='images/36_2_1_2_2.png' width='400' align='absmiddle'>
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a2_3" onclick="select_answer(this)">
+						③ <img src='images/36_2_1_2_3.png' width='400' align='absmiddle'>
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a2_4" onclick="select_answer(this)">
+						④ <img src='images/36_2_1_2_4.png' width='400' align='absmiddle'>
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_3" name="test_3">
+
+
+		<div id="q3" class="question">3. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a3_1" onclick="select_answer(this)">
+						① <img src='images/36_2_1_3_1.png' width='400' align='absmiddle'>
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a3_2" onclick="select_answer(this)">
+						② <img src='images/36_2_1_3_2.png' width='400' align='absmiddle'>
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a3_3" onclick="select_answer(this)">
+						③ <img src='images/36_2_1_3_3.png' width='400' align='absmiddle'>
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a3_4" onclick="select_answer(this)">
+						④ <img src='images/36_2_1_3_4.png' width='400' align='absmiddle'>
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [4～8]다음 대화를 잘 듣고 이어질 수 있는 말을 고르십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_4" name="test_4">
+
+
+		<div id="q4" class="question">4. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a4_1" onclick="select_answer(this)">
+						① 야유회를 다녀왔군요.
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a4_2" onclick="select_answer(this)">
+						② 가까운 곳으로 갔어요.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a4_3" onclick="select_answer(this)">
+						③ 옷을 따뜻하게 입고 가세요.
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a4_4" onclick="select_answer(this)">
+						④ 추울 때는 집에서 쉬곤 해요.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_5" name="test_5">
+
+
+		<div id="q5" class="question">5. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a5_1" onclick="select_answer(this)">
+						① 살아 보니 소음이 너무 심하더라고.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a5_2" onclick="select_answer(this)">
+						② 혼자 사는 것보다 둘이 사는 게 좋았어.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a5_3" onclick="select_answer(this)">
+						③ 지금 집은 학교와 가까워서 편하고 좋아.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a5_4" onclick="select_answer(this)">
+						④ 부동산에 가서 알아보는 게 좋을 것 같아서.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_6" name="test_6">
+
+
+		<div id="q6" class="question">6. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a6_1" onclick="select_answer(this)">
+						① 그래?텐트만 사면 되겠네.
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a6_2" onclick="select_answer(this)">
+						② 그래도 자세히 알아봐야겠다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a6_3" onclick="select_answer(this)">
+						③ 그래?미리 알았으면 좋았을걸.
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a6_4" onclick="select_answer(this)">
+						④ 그래도 텐트는 치기 힘들겠다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_7" name="test_7">
+
+
+		<div id="q7" class="question">7. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a7_1" onclick="select_answer(this)">
+						① 분위기가 카페처럼 참 좋네요.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a7_2" onclick="select_answer(this)">
+						② 사무실 옆에 카페가 있으면 좋아요.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a7_3" onclick="select_answer(this)">
+						③ 집중이 안 되면 카페에서 해 보세요.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a7_4" onclick="select_answer(this)">
+						④ 전 편안하면 일이 더 잘 될 것 같아요.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_8" name="test_8">
+
+
+		<div id="q8" class="question">8. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a8_1" onclick="select_answer(this)">
+						① 연수 다녀와서 뵙겠습니다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a8_2" onclick="select_answer(this)">
+						② 지난번에 제가 미리 말씀드렸습니다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a8_3" onclick="select_answer(this)">
+						③ 개인 사정이 생기면 말씀드리겠습니다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a8_4" onclick="select_answer(this)">
+						④ 저도 정말 가고 싶지만 힘들 것 같습니다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [9～12]다음 대화를 잘 듣고 여자가 이어서 할 행동으로 알맞은 것을 고르십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_9" name="test_9">
+
+
+		<div id="q9" class="question">9. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a9_1" onclick="select_answer(this)">
+						① 외식하러 갈 식당을 예약한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a9_2" onclick="select_answer(this)">
+						② 퇴근을 하고 약속 장소로 간다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a9_3" onclick="select_answer(this)">
+						③ 남편을 만나러 회사 앞으로 간다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a9_4" onclick="select_answer(this)">
+						④ 아이들을 데리고 회사 앞으로 간다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_10" name="test_10">
+
+
+		<div id="q10" class="question">10. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a10_1" onclick="select_answer(this)">
+						① 다른 볼일을 보러 간다.
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a10_2" onclick="select_answer(this)">
+						② 병원 진료 접수를 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a10_3" onclick="select_answer(this)">
+						③ 병원에 앉아서 기다린다.
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a10_4" onclick="select_answer(this)">
+						④ 진찰을 받으러 들어간다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_11" name="test_11">
+
+
+		<div id="q11" class="question">11. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a11_1" onclick="select_answer(this)">
+						① 책자에서 커튼을 고른다.
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a11_2" onclick="select_answer(this)">
+						② 집에서 거실 커튼을 단다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a11_3" onclick="select_answer(this)">
+						③ 커튼을 사러 가게에 간다.
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a11_4" onclick="select_answer(this)">
+						④ 커튼을 사서 집에 가져간다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_12" name="test_12">
+
+
+		<div id="q12" class="question">12. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a12_1" onclick="select_answer(this)">
+						① 직원 교육 일정을 짠다.
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a12_2" onclick="select_answer(this)">
+						② 특강 강사를 모시러 간다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a12_3" onclick="select_answer(this)">
+						③ 특강했던 강사에게 연락한다.
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a12_4" onclick="select_answer(this)">
+						④ 교육 받을 장소를 알아본다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [13～16]다음을 듣고 내용과 일치하는 것을 고르십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_13" name="test_13">
+
+
+		<div id="q13" class="question">13. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a13_1" onclick="select_answer(this)">
+						① 남자는 이 프로그램에 만족해 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a13_2" onclick="select_answer(this)">
+						② 이 프로그램은 다시 가면 할인해 준다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a13_3" onclick="select_answer(this)">
+						③ 이 프로그램은 예약해야 참여할 수 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a13_4" onclick="select_answer(this)">
+						④ 여자는 이번 달에 이 프로그램에 참가할 것이다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_14" name="test_14">
+
+
+		<div id="q14" class="question">14. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a14_1" onclick="select_answer(this)">
+						① 밤에는 난방 기구를 사용할 수 없다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a14_2" onclick="select_answer(this)">
+						② 9시 이후에는 모든 전기 제품을 끈다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a14_3" onclick="select_answer(this)">
+						③ 사무실은 일정 온도를 유지해야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a14_4" onclick="select_answer(this)">
+						④ 점심시간에는 엘리베이터가 운행되지 않는다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_15" name="test_15">
+
+
+		<div id="q15" class="question">15. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a15_1" onclick="select_answer(this)">
+						① 맞춤형 순찰제도는 작년부터 실시되었다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a15_2" onclick="select_answer(this)">
+						② 이 제도를 도입한 후 범죄율이 감소하였다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a15_3" onclick="select_answer(this)">
+						③ 맞춤형 순찰제도는 전국에서 시행되고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a15_4" onclick="select_answer(this)">
+						④ 주민들이 경찰관과 함께 담당 구역을 순찰한다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_16" name="test_16">
+
+
+		<div id="q16" class="question">16. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a16_1" onclick="select_answer(this)">
+						① 시장의 카페에서 다양한 도시락을 판다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a16_2" onclick="select_answer(this)">
+						② 이 시장을 관광지로 알리려고 홍보했다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a16_3" onclick="select_answer(this)">
+						③ 시장이 인기를 끌자 도시락 카페가 생겼다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a16_4" onclick="select_answer(this)">
+						④ 이 시장에서는 음식을 골라먹는 재미가 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [17～20]다음을 듣고 남자의 중심 생각을 고르십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_17" name="test_17">
+
+
+		<div id="q17" class="question">17. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a17_1" onclick="select_answer(this)">
+						① 컴퓨터를 꼭 학원에서 배울 필요는 없다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a17_2" onclick="select_answer(this)">
+						② 컴퓨터를 더 배워 두면 경쟁력이 커진다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a17_3" onclick="select_answer(this)">
+						③ 컴퓨터는 자기가 필요한 만큼만 배우면 된다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a17_4" onclick="select_answer(this)">
+						④ 컴퓨터 학원은 자격증을 딸 때까지 가야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_18" name="test_18">
+
+
+		<div id="q18" class="question">18. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a18_1" onclick="select_answer(this)">
+						① 칭찬을 받으면 일할 의욕이 높아진다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a18_2" onclick="select_answer(this)">
+						② 칭찬을 받으려면 거절하지 말아야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a18_3" onclick="select_answer(this)">
+						③ 칭찬을 받으면 그 말을 의식해서 행동하게 된다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a18_4" onclick="select_answer(this)">
+						④ 칭찬을 받으면 다른 사람도 칭찬해 줘야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_19" name="test_19">
+
+
+		<div id="q19" class="question">19. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a19_1" onclick="select_answer(this)">
+						① 커피숍 주인은 손님을 더 배려해야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a19_2" onclick="select_answer(this)">
+						② 커피 값에 공간을 이용하는 비용이 들어 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a19_3" onclick="select_answer(this)">
+						③ 커피숍에 장시간 있는 것은 영업에 방해가 된다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a19_4" onclick="select_answer(this)">
+						④ 커피숍 공간을 다양하게 이용할 수 있게 해야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_20" name="test_20">
+
+
+		<div id="q20" class="question">20. </div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a20_1" onclick="select_answer(this)">
+						① 웃음으로 서로의 관계를 회복해야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a20_2" onclick="select_answer(this)">
+						② 화해하고 싶으면 먼저 나를 되돌아봐야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a20_3" onclick="select_answer(this)">
+						③ 상대방의 웃음을 보면 화해를 먼저 해야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a20_4" onclick="select_answer(this)">
+						④ 화해하려면 상대방의 행동을 미리 살펴야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [21～22]다음을 듣고 물음에 답하십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_21" name="test_21">
+
+
+		<div id="q21" class="question">21. 남자의 중심 생각으로 맞는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a21_1" onclick="select_answer(this)">
+						① 진정한 독립은 경제적 독립이다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a21_2" onclick="select_answer(this)">
+						② 가족은 함께 생활하는 것이 좋다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a21_3" onclick="select_answer(this)">
+						③ 누구나 자신만의 공간이 필요하다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a21_4" onclick="select_answer(this)">
+						④ 독립해 사는 것이 좋은 것만은 아니다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_22" name="test_22">
+
+
+		<div id="q22" class="question">22. 들은 내용으로 알맞은 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a22_1" onclick="select_answer(this)">
+						① 여자는 아빠와의 사이가 좋지 않다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a22_2" onclick="select_answer(this)">
+						② 여자는 집안일로 스트레스를 받고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a22_3" onclick="select_answer(this)">
+						③ 여자의 아버지는 딸의 독립을 반대한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a22_4" onclick="select_answer(this)">
+						④ 여자는 회사가 멀어서 독립하고 싶어한다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [23～24]다음을 듣고 물음에 답하십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_23" name="test_23">
+
+
+		<div id="q23" class="question">23. 남자는 무엇을 하고 있는지 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a23_1" onclick="select_answer(this)">
+						① 잡 마켓 이용을 제안하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a23_2" onclick="select_answer(this)">
+						② 직장 내의 각 부서를 설명하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a23_3" onclick="select_answer(this)">
+						③ 잡 마켓 이용 경험을 소개하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a23_4" onclick="select_answer(this)">
+						④ 상사의 문제점에 대해 이야기하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_24" name="test_24">
+
+
+		<div id="q24" class="question">24. 들은 내용으로 맞는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a24_1" onclick="select_answer(this)">
+						① 여자는 일하고 있는 부서에 만족해 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a24_2" onclick="select_answer(this)">
+						② 잡 마켓은 회사를 홍보하기 위해 만들었다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a24_3" onclick="select_answer(this)">
+						③ 잡 마켓은 상사의 허락이 있어야 이용한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a24_4" onclick="select_answer(this)">
+						④ 직원들은 적성에 맞는 부서로 옮길 기회가 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [25～26]다음을 듣고 물음에 답하십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_25" name="test_25">
+
+
+		<div id="q25" class="question">25. 남자의 중심 생각으로 맞는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a25_1" onclick="select_answer(this)">
+						① 시작한 일은 끝까지 해내야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a25_2" onclick="select_answer(this)">
+						② 마음먹었을 때 바로 실천해야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a25_3" onclick="select_answer(this)">
+						③ 자신의 한계를 알아야 도전할 수 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a25_4" onclick="select_answer(this)">
+						④ 고난을 극복하려면 강한 정신력이 필요하다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_26" name="test_26">
+
+
+		<div id="q26" class="question">26. 들은 내용으로 맞는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a26_1" onclick="select_answer(this)">
+						① 남자는 정글을 최고의 마라톤 장소로 꼽았다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a26_2" onclick="select_answer(this)">
+						② 남자는 마라톤 선수들을 통해 많은 것을 배웠다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a26_3" onclick="select_answer(this)">
+						③ 남자는 고통이 심해서 마라톤을 중간에 포기했다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a26_4" onclick="select_answer(this)">
+						④ 남자는 아마존에서 자신의 의지를 시험하고 싶었다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [27～28]다음을 듣고 물음에 답하십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_27" name="test_27">
+
+
+		<div id="q27" class="question">27. 여자가 남자에게 말하는 의도를 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a27_1" onclick="select_answer(this)">
+						① 대안학교의 필요성을 강조하기 위해
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a27_2" onclick="select_answer(this)">
+						② 대안학교에 입학하도록 권유하기 위해
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a27_3" onclick="select_answer(this)">
+						③ 아이 교육 문제에 대해 책임을 묻기 위해
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a27_4" onclick="select_answer(this)">
+						④ 아이 학습 태도에 대한 조언을 주기 위해
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_28" name="test_28">
+
+
+		<div id="q28" class="question">28. 들은 내용으로 맞는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a28_1" onclick="select_answer(this)">
+						① 여자는 일반학교의 장점을 잘 이해하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a28_2" onclick="select_answer(this)">
+						② 남자의 아이는 일반학교 방식에 잘 적응했다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a28_3" onclick="select_answer(this)">
+						③ 여자의 아이는 입시 위주의 공부를 하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a28_4" onclick="select_answer(this)">
+						④ 남자는 아이의 교육 방식 변화를 고려하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [29～30]다음을 듣고 물음에 답하십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_29" name="test_29">
+
+
+		<div id="q29" class="question">29. 남자는 누구인지 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a29_1" onclick="select_answer(this)">
+						① 동양화가
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a29_2" onclick="select_answer(this)">
+						② 전통 공예가
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a29_3" onclick="select_answer(this)">
+						③ 나무 조각가
+					</span></a>
+				</td>
+
+				<td class="answer_td_2" >
+					<a class="answer"><span id="a29_4" onclick="select_answer(this)">
+						④ 전시회 기획자
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_30" name="test_30">
+
+
+		<div id="q30" class="question">30. 들은 내용으로 맞는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a30_1" onclick="select_answer(this)">
+						① 남자는 실용성보다 예술성을 강조한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a30_2" onclick="select_answer(this)">
+						② 한지의 색은 빛에 의해서 다양하게 연출된다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a30_3" onclick="select_answer(this)">
+						③ 남자가 만든 조각품에 외국인들이 푹 빠졌다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a30_4" onclick="select_answer(this)">
+						④ 한지의 색깔은 시간이 지나도 잘 변하지 않는다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [31～32]다음을 듣고 물음에 답하십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_31" name="test_31">
+
+
+		<div id="q31" class="question">31. 남자의 생각으로 맞는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a31_1" onclick="select_answer(this)">
+						① 고열량 음식 때문에 청소년들의 체형이 변했다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a31_2" onclick="select_answer(this)">
+						② 고열량 식품 판매자에게 세금을 부과해야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a31_3" onclick="select_answer(this)">
+						③ 비만세는 판매자와 소비자 모두에게 부담을 준다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a31_4" onclick="select_answer(this)">
+						④ 우리나라 사람들의 비만은 운동 부족이 주요 원인이다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_32" name="test_32">
+
+
+		<div id="q32" class="question">32. 남자의 태도로 맞는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a32_1" onclick="select_answer(this)">
+						① 상대방의 말을 하나하나 반박하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a32_2" onclick="select_answer(this)">
+						② 앞으로 일어날 일에 대해 전망하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a32_3" onclick="select_answer(this)">
+						③ 현재의 문제에 대해 판매자의 책임을 묻고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a32_4" onclick="select_answer(this)">
+						④ 내용을 파악하지 못해 상대방에게 질문하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [33～34]다음을 듣고 물음에 답하십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_33" name="test_33">
+
+
+		<div id="q33" class="question">33. 무엇에 대한 내용인지 맞는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a33_1" onclick="select_answer(this)">
+						① 지나친 청결의 문제점
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a33_2" onclick="select_answer(this)">
+						② 피부병 발병의 주요 원인
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a33_3" onclick="select_answer(this)">
+						③ 유아기 생활 습관의 중요성
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a33_4" onclick="select_answer(this)">
+						④ 항균 요법을 통한 질병 예방법
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_34" name="test_34">
+
+
+		<div id="q34" class="question">34. 들은 내용으로 맞는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a34_1" onclick="select_answer(this)">
+						① 피부병 발병률에 대한 연구가 필요하다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a34_2" onclick="select_answer(this)">
+						② 비위생적인 환경은 알레르기의 원인이 된다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a34_3" onclick="select_answer(this)">
+						③ 우리 몸에는 적당한 세균이 있는 것이 더 좋다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a34_4" onclick="select_answer(this)">
+						④ 환경이 깨끗하면 우리 몸의 면역력이 커진다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [35～36]다음을 듣고 물음에 답하십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_35" name="test_35">
+
+
+		<div id="q35" class="question">35. 남자는 무엇을 하고 있는지 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a35_1" onclick="select_answer(this)">
+						① 글로벌화 사업 내용을 분석하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a35_2" onclick="select_answer(this)">
+						② 중소기업의 성장 과정을 보고하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a35_3" onclick="select_answer(this)">
+						③ 중소기업의 성과에 대해 평가하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a35_4" onclick="select_answer(this)">
+						④ 글로벌화 사업에 참여할 것을 요청하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_36" name="test_36">
+
+
+		<div id="q36" class="question">36. 들은 내용으로 맞는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a36_1" onclick="select_answer(this)">
+						① 중소기업의 해외 진출이 활성화되고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a36_2" onclick="select_answer(this)">
+						② 협회는 정부의 글로벌화 사업에 참여해 왔다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a36_3" onclick="select_answer(this)">
+						③ 글로벌화 사업은 대기업의 주도로 이루어진다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a36_4" onclick="select_answer(this)">
+						④ 이 간담회는 수출 환경 개선을 위해 마련되었다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [37～38]다음은 교양 프로그램입니다.잘 듣고 물음에 답하십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_37" name="test_37">
+
+
+		<div id="q37" class="question">37. 남자의 중심 생각으로 맞는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a37_1" onclick="select_answer(this)">
+						① 날씨 경영의 경제적 효용성을 분석해야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a37_2" onclick="select_answer(this)">
+						② 기업을 경영하는 데 날씨 경영을 적극 활용해야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a37_3" onclick="select_answer(this)">
+						③ 기상 산업은 정부의 미래 산업으로 선정되어야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a37_4" onclick="select_answer(this)">
+						④ 소비자 구매 욕구를 파악해서 마케팅 전략을 세워야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_38" name="test_38">
+
+
+		<div id="q38" class="question">38. 들은 내용과 일치하는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a38_1" onclick="select_answer(this)">
+						① 날씨 경영은 미래에 주목 받는 사업이다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a38_2" onclick="select_answer(this)">
+						② 날씨 경영은 재해 예방을 위해 사용된다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a38_3" onclick="select_answer(this)">
+						③ 날씨 경영은 기업의 경영 전략을 분석한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a38_4" onclick="select_answer(this)">
+						④ 날씨 경영은 국내의 많은 기업이 활용하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [39～40]다음은 대담입니다.잘 듣고 물음에 답하십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_39" name="test_39">
+
+
+		<div id="q39" class="question">39. 이 담화 앞의 내용으로 알맞은 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a39_1" onclick="select_answer(this)">
+						① 농촌의 논밭과 산은 대기를 정화시킨다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a39_2" onclick="select_answer(this)">
+						② 농촌과 도시의 비율이 균형을 이루었다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a39_3" onclick="select_answer(this)">
+						③ 농가에 대한 정부의 지원이 확대되고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a39_4" onclick="select_answer(this)">
+						④ 농촌의 발달은 국가에 이익을 가져다 준다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_40" name="test_40">
+
+
+		<div id="q40" class="question">40. 들은 내용과 일치하는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a40_1" onclick="select_answer(this)">
+						① 농촌의 기능은 공익적 측면에 집중되어 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a40_2" onclick="select_answer(this)">
+						② 농업이 경제 지표로서 가치를 가지기는 힘들다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a40_3" onclick="select_answer(this)">
+						③ 농업에 투자하면 사회에 더 큰 혜택으로 돌아온다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a40_4" onclick="select_answer(this)">
+						④ 농가의 정부 보조금은 국가 예산에 부담을 준다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [41～42]다음은 강연입니다.잘 듣고 물음에 답하십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_41" name="test_41">
+
+
+		<div id="q41" class="question">41. 들은 내용과 일치하는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a41_1" onclick="select_answer(this)">
+						① 부정적 감정들은 좌절감에 빠지게 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a41_2" onclick="select_answer(this)">
+						② 분노의 감정이 없어야만 행복감을 느낀다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a41_3" onclick="select_answer(this)">
+						③ 모나리자의 미소는 완전한 행복을 보여 준다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a41_4" onclick="select_answer(this)">
+						④ 슬픔은 현실감을 잃지 않게 하는 요소로 작용한다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_42" name="test_42">
+
+
+		<div id="q42" class="question">42. 남자의 중심 생각으로 맞는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a42_1" onclick="select_answer(this)">
+						① 완전한 행복을 위해 슬픔을 이겨야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a42_2" onclick="select_answer(this)">
+						② 완전한 행복을 위해 조금은 불행한 것도 좋다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a42_3" onclick="select_answer(this)">
+						③ 완벽한 행복을 위해 괴로운 일을 잊어야 한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a42_4" onclick="select_answer(this)">
+						④ 완벽한 행복을 위해 행복감의 유지가 필요하다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [43～44]다음은 다큐멘터리입니다.잘 듣고 물음에 답하십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_43" name="test_43">
+
+
+		<div id="q43" class="question">43. 수컷 해마가 배를 부풀리는 이유로 맞는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a43_1" onclick="select_answer(this)">
+						① 알을 더 많이 품으려고
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a43_2" onclick="select_answer(this)">
+						② 새끼들을 쉽게 낳으려고
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a43_3" onclick="select_answer(this)">
+						③ 암컷 해마의 눈에 잘 띄려고
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a43_4" onclick="select_answer(this)">
+						④ 새끼들에게 많은 양분을 주려고
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_44" name="test_44">
+
+
+		<div id="q44" class="question">44. 이 이야기의 중심 내용으로 맞는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a44_1" onclick="select_answer(this)">
+						① 해마의 번식 방법은 독특하다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a44_2" onclick="select_answer(this)">
+						② 해마는 모성애가 유난히 강하다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a44_3" onclick="select_answer(this)">
+						③ 바다 생물은 대체로 번식력이 뛰어나다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a44_4" onclick="select_answer(this)">
+						④ 해마는 새끼를 기르는 방식이 특이하다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [45～46]다음은 강연입니다.잘 듣고 물음에 답하십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_45" name="test_45">
+
+
+		<div id="q45" class="question">45. 들은 내용과 일치하는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a45_1" onclick="select_answer(this)">
+						① 유대관계가 긴밀한 사람이 많아야 성공한 인생이다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a45_2" onclick="select_answer(this)">
+						② 그냥 아는 사이의 사람이 중요한 도움을 줄 수 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a45_3" onclick="select_answer(this)">
+						③ 우리는 보통 약한 유대 관계의 사람들을 중요시한다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a45_4" onclick="select_answer(this)">
+						④ 개인적인 접촉을 자주 해야 절친한 관계를 맺을 수 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_46" name="test_46">
+
+
+		<div id="q46" class="question">46. 여자의 태도로 가장 알맞은 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a46_1" onclick="select_answer(this)">
+						① 구체적인 자료를 통해 해결책을 제시하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a46_2" onclick="select_answer(this)">
+						② 각각의 견해에 대해 논리적으로 분석하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a46_3" onclick="select_answer(this)">
+						③ 조사 결과를 근거로 자신의 의견을 제기하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a46_4" onclick="select_answer(this)">
+						④ 상대방의 동의를 구하며 자신의 주장을 펼치고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [47～48]다음은 대담입니다.잘 듣고 물음에 답하십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_47" name="test_47">
+
+
+		<div id="q47" class="question">47. 들은 내용과 일치하는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a47_1" onclick="select_answer(this)">
+						① 고서에서 알 수 있는 정보는 한계가 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a47_2" onclick="select_answer(this)">
+						② 출간 연대가 오래될수록 가치 있고 귀한 책이다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a47_3" onclick="select_answer(this)">
+						③ 옛날의 다양한 일상을 보여주는 자료가 부족하다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a47_4" onclick="select_answer(this)">
+						④ 남자는 사람들이 관심 갖지 않는 책을 연구하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_48" name="test_48">
+
+
+		<div id="q48" class="question">48. 남자의 태도로 가장 알맞은 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a48_1" onclick="select_answer(this)">
+						① 대중들이 즐겨보던 고서적 발굴을 촉구하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a48_2" onclick="select_answer(this)">
+						② 고서적 연구가 나아갈 새로운 방향을 제시하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a48_3" onclick="select_answer(this)">
+						③ 고서적의 가치를 설명하며 연구의 의의를 강조하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a48_4" onclick="select_answer(this)">
+						④ 고서적의 자료를 근거로 연구의 신뢰성을 증명하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+<br/><br/>
+	<b>※ [49～50]다음은 강연입니다.잘 듣고 물음에 답하십시오.(각 2점)</b><br/><br/>
+
+
+	<div id="test_49" name="test_49">
+
+
+		<div id="q49" class="question">49. 들은 내용과 일치하는 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a49_1" onclick="select_answer(this)">
+						① 마키아벨리는 국민을 권력의 바탕으로 보았다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a49_2" onclick="select_answer(this)">
+						② 마키아벨리는 바람직한 국민의 모습을 제시했다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a49_3" onclick="select_answer(this)">
+						③ 마키아벨리는 군주의 도덕성을 중요하게 생각했
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a49_4" onclick="select_answer(this)">
+						④ 마키아벨리는 어떤 경우든 수단을 정당하다고 보았다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<div id="test_50" name="test_50">
+
+
+		<div id="q50" class="question">50. 여자의 태도로 가장 알맞은 것을 고르십시오.</div><br/>
+
+
+	<table width="100%" cellpadding="0" width="100%">
+	<tr>
+		<td style="width:20px;"></td>
+		<td valign="top">
+
+			<table width="100%" cellpadding="10" width="100%">
+			<tr>
+
+
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a50_1" onclick="select_answer(this)">
+						① 각각의 견해를 비판하며 우려를 나타내고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a50_2" onclick="select_answer(this)">
+						② 다양한 사례를 분석하여 결론을 끌어내고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a50_3" onclick="select_answer(this)">
+						③ 새로운 평가를 반박하며 청중의 동의를 구하고 있다
+					</span></a>
+				</td>
+			</tr><tr>
+				<td class="answer_td_1" >
+					<a class="answer"><span id="a50_4" onclick="select_answer(this)">
+						④ 새로운 해석을 소개하며 청중의 판단을 요구하고 있다.
+					</span></a>
+				</td>
+			</tr><tr>
+
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	</div>
+	<br/><br/>
+
+
+
+	<br/><br/>
+	<center>
+	<button id="result_button">ver resultado</button>
+
+
+	<div id="result_message" style="display:none;">
+	<br/><br/>
+	<table cellpadding="3" cellspacing="1" bgcolor="#ffffff" style="border:2px solid #aaaaaa;" width="100%">
+	<tr>
+		<td style="font-size:30px;text-align:center;background-color:#eeeeee;" colspan="4">RESULTADO</td>
+	</tr>
+	<tr>
+		<td style="font-size:30px;text-align:center">Preguntas en total : <span id="total_test_num" style="">0</span></td>
+		<td style="font-size:30px;text-align:center">Preguntas resueltas : <span id="total_solve_num" style="">0</span></td>
+		<td style="font-size:30px;text-align:center">Respuestas correctas : <span id="correct_answer_num">0</span></td>
+		<td style="font-size:30px;text-align:center">Respuestas incorrectas : <span id="no_answer_num">0</span></td>
+	</tr>
+	<tr>
+		<td style="font-size:50px;text-align:right;background-color:#eeeeee;padding-right:50px;" colspan="4">Calificación final : <span id="total_grade" style="">0</span> puntos</td>
+	</tr>
+	</table>
+
+
+
+			<br/><br/><br/>
+
+			<table cellpadding="3" cellspacing="1"  width="100%">
+			<tr>
+				<td>
+					Niveles: 1 - 6<br/>
+					Obtendrá un nivel por los puntos obtenidos en la prueba como el siguiente cuadro.<br/>
+				</td>
+			</tr>
+			</table>
+			<table cellpadding="3" cellspacing="1" bgcolor="#ffffff" style="border:2px solid #aaaaaa;" width="100%">
+			<tr>
+				<td style="font-size:20px;text-align:center;background-color:#eeeeee;" rowspan="2">
+					Clasificación
+				</td>
+				<td style="font-size:20px;text-align:center;background-color:#eeeeee;" colspan="2">
+					TOPIK I (audición + lectura)
+				</td>
+				<td style="font-size:20px;text-align:center;background-color:#eeeeee;" colspan="4">
+					TOPIK II (audición + lectura + escritura)
+				</td>
+			</tr>
+			<tr>
+				<td style="font-size:20px;text-align:center;background-color:#eeeeee;" >nivel 1</td>
+				<td style="font-size:20px;text-align:center;background-color:#eeeeee;" >nivel 2</td>
+				<td style="font-size:20px;text-align:center;background-color:#eeeeee;" >nivel 3</td>
+				<td style="font-size:20px;text-align:center;background-color:#eeeeee;" >nivel 4</td>
+				<td style="font-size:20px;text-align:center;background-color:#eeeeee;" >nivel 5</td>
+				<td style="font-size:20px;text-align:center;background-color:#eeeeee;" >nivel 6</td>
+			</tr>
+			<tr>
+				<td style="font-size:20px;text-align:center">Puntos</td>
+				<td style="font-size:20px;text-align:center">más de 80</td>
+				<td style="font-size:20px;text-align:center">más de 140</td>
+				<td style="font-size:20px;text-align:center">más de 120</td>
+				<td style="font-size:20px;text-align:center">más de 150</td>
+				<td style="font-size:20px;text-align:center">más de 190</td>
+				<td style="font-size:20px;text-align:center">más de 230</td>
+			</tr>
+			</table>
+			<table cellpadding="3" cellspacing="1"  width="100%">
+			<tr>
+				<td>
+					※ TOPIK I (nivel básico) y TOPIK II (nivel intermedio y avanzado).
+				</td>
+			</tr>
+			</table>
+	 </div>
+
+	</center>
+	<a name="bottom"></a>
+	<br/><br/>
+
+	</td>
+</tr>
+</table>
+
+
+</body>
+</html>
